@@ -194,8 +194,10 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?=arm64
+
+# Cross compiler link https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9
+# Change this line to cross compiler path:
 CROSS_COMPILE	?=/home/mehmet/src/gcc-aarch64/bin/aarch64-linux-android-
-# CROSS_COMPILE	?=/home/brett/android/uber-4.x/bin/aarch64-linux-android-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)

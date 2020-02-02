@@ -1,6 +1,6 @@
 #!/bin/bash
 
-KERNELDIR=$HOME/src/Afterburner_Nougat
+KERNELDIR=$(pwd)
 MYOUT=$KERNELDIR/arch/arm64/boot
 ABDIR=$KERNELDIR/afterburner
 MYTOOLS=$ABDIR/mkdtbhbootimg/bin
@@ -47,6 +47,7 @@ cd $ABDIR/zipsrc
 
 zip -r afterburner-N-v$1.zip boot.img add-ons/ META-INF/
 
+mkdir -p $ABDIR/out
 mv afterburner-N-v$1.zip $ABDIR/out/
 rm $ABDIR/zipsrc/boot.img
 
