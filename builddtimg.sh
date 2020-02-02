@@ -1,6 +1,6 @@
 #!/bin/bash
 
-KERNELDIR=$(pwd)
+KERNELDIR=$(dirname $0)
 MYOUT=$KERNELDIR/arch/arm64/boot
 ABDIR=$KERNELDIR/afterburner
 MYTOOLS=$ABDIR/mkdtbhbootimg/bin
