@@ -15,7 +15,8 @@ Prerequirements:
 
 Clone repository
 
-```git clone https://github.com/roket1428/Afterburner_Nougat
+```
+git clone https://github.com/roket1428/Afterburner_Nougat
 cd Afterburner_Nougat 
 ```
 
