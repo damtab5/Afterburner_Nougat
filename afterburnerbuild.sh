@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
-ABVER="$(date +"%y.%m.%d")"
+VER="$(date +"%y.%m.%d")"
 
-if [ -e last_build_date.log ] && grep -q $ABVER last_build_date.log
+if [ -e last_build_date.log ] && grep -q $VER last_build_date.log
 then
-	BVER=$(($(cat .version) + 1))
-	ABVER="$(echo $ABVER).$BVER"
+	BUILDVER=$(($(cat .version) + 1))
+	VER="$(echo $VER).$BUILDVER"
 else
-	echo $ABVER > last_build_date.log
-	ABVER="$(echo $ABVER).1"
+	echo $VER > last_build_date.log
+	VER="$(echo $VER).1"
 	
 	if [ -e .version ]
 	then
@@ -16,9 +16,9 @@ else
 	fi
 fi
 
-sed -i 's~\(CONFIG_LOCALVERSION="-Afterburner_N_v\).*"~\1'$ABVER'"~' arch/arm64/configs/j7elte_00_defconfig
-sed -i 's~\(ini_set("rom_version",          "\).*");~\1'$ABVER'");~' afterburner/zipsrc/META-INF/com/google/android/aroma-config
+sed -i 's~\(CONFIG_LOCALVERSION="-Afterburner_N_v\).*"~\1'$VER'"~' arch/arm64/configs/j7elte_00_defconfig
+sed -i 's~\(ini_set("rom_version",          "\).*");~\1'$VER'");~' afterburner/zipsrc/META-INF/com/google/android/aroma-config
 sed -i 's~\(ini_set("rom_date",             "\).*");~\1'$(date +"%D")'");~' afterburner/zipsrc/META-INF/com/google/android/aroma-config
-/bin/bash buildkernel.sh
-/bin/bash builddtimg.sh $ABVER
+./buildkernel.sh
+./builddtimg.sh $VER
 

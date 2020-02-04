@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export ANDROID_VERSION=0
 export ANDROID_MAJOR_VERSION=7
