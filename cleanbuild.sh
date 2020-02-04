@@ -1,5 +1,4 @@
 #!/bin/sh
-cd "$(dirname "$0")" || exit
 
 # save the version information
 mv .version .version.bak
