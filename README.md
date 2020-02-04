@@ -1,11 +1,11 @@
 # Afterburner Kernel For J7 2015 Exynos7580
 
-##Downloads
+### Downloads
 
 See [releases](https://github.com/roket1428/Afterburner_Nougat/releases)
 
 
-##Building from source
+### Building from source
 
 Prerequirements:
 - make
