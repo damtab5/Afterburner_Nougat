@@ -2,4 +2,4 @@
 
 #Change this line according to your arm64 cross compiler path
 
-CROSSPATH := /path/to/crosscompiler/bin/aarch64-linux-android-
+CROSSPATH := /home/mehmet/src/gcc-aarch64/bin/aarch64-linux-android-

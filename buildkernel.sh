@@ -1,4 +1,5 @@
 #!/bin/sh
+cd "$(dirname "$0")" || exit
 
 export ANDROID_VERSION=0
 export ANDROID_MAJOR_VERSION=7

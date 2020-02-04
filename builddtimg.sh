@@ -1,9 +1,12 @@
 #!/bin/sh
+. "$(pwd)/j7variant.sh"
 
-BUILDOUT=arch/arm64/boot
-TOOLCHAIN=afterburner/mkdtbhbootimg/bin
+TOOLCHAIN="$(pwd)/afterburner/mkdtbhbootimg/bin"
 
-cd $BUILDOUT
+# copy ramdisk
+cp afterburner/ramdisk/boot.img-ramdisk.gz arch/arm64/boot/
+
+cd arch/arm64/boot || exit
 
 if [ ! -e Image ]
 then
@@ -11,36 +14,38 @@ then
 	exit 1
 fi
 
-# copy a the ramdisk
-cp afterburner/ramdisk/boot.img-ramdisk.gz $BUILDOUT/
+mkdir "$J7VARIANT"
 
-mkdir $BUILDOUT/j7e3g
+# Compile the dt
+if [ "$J7VARIANT" = "j7e3g" ]; then
+	cp dts/exynos7580-"${J7VARIANT}"_rev00.dtb "$J7VARIANT"/
+	cp dts/exynos7580-"${J7VARIANT}"_rev05.dtb "$J7VARIANT"/
+	cp dts/exynos7580-"${J7VARIANT}"_rev08.dtb "$J7VARIANT"/
+else
+	cp dts/exynos7580-"${J7VARIANT}"_rev00.dtb "$J7VARIANT"/
+	cp dts/exynos7580-"${J7VARIANT}"_rev04.dtb "$J7VARIANT"/
+	cp dts/exynos7580-"${J7VARIANT}"_rev06.dtb "$J7VARIANT"/
+fi
 
-# Compile the dt for J7 3g as its the only one that works correctly
-cp dts/exynos7580-j7e3g_rev00.dtb j7e3g/
-cp dts/exynos7580-j7e3g_rev05.dtb j7e3g/
-cp dts/exynos7580-j7e3g_rev08.dtb j7e3g/
-
-
-# a workaround to get the dt.img for j7e3g
-$TOOLCHAIN/mkbootimg --kernel Image --ramdisk boot.img-ramdisk.gz --dt_dir j7e3g -o boot-new2.img
+# a workaround to get the dt.img
+$TOOLCHAIN/mkbootimg --kernel Image --ramdisk boot.img-ramdisk.gz --dt_dir "$J7VARIANT" -o boot-output.img
 
 # copy the kernel
-mv boot-new2.img afterburner/zipsrc/boot.img
+mv boot-output.img "../../../afterburner/zipsrc/boot.img"
 
 # cleanup
-rm -rf $BUILDOUT/j7e3g/
-rm $BUILDOUT/Image
-rm $BUILDOUT/Image.gz
-rm $BUILDOUT/Image.gz-dtb
-rm $BUILDOUT/boot.img-ramdisk.gz
+rm -rf "$J7VARIANT"
+rm Image
+rm Image.gz
+rm Image.gz-dtb
+rm boot.img-ramdisk.gz
 
 # make the flashable zip new ramdisk
-cd afterburner/zipsrc
+cd "../../../afterburner/zipsrc" || exit
 
-zip -r afterburner-N-v$1.zip boot.img add-ons/ META-INF/
+zip -r afterburner-N-v$1-${J7VARIANT}.zip boot.img add-ons/ META-INF/
 
-mkdir -p afterburner/out
-mv afterburner-N-v$1.zip afterburner/out/
-rm afterburner/zipsrc/boot.img
+cd ../
+mv zipsrc/afterburner-N-v$1-${J7VARIANT}.zip out/
+rm zipsrc/boot.img
 

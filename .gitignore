@@ -71,7 +71,6 @@ arch/*/include/generated
 # Output files
 arch/arm64/boot/Image
 arch/arm64/boot/Image.gz
-afterburner/out
 
 # Generated files
 firmware/coreriver/tc350k_j7.fw
@@ -137,7 +136,7 @@ GTAGS
 *.orig
 *~
 \#*#
-
+test.sh
 #
 # Leavings from module signing
 #
